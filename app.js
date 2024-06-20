@@ -40,6 +40,12 @@ app.get('/pokemon/:indexOfArray', (req, res) => {
     pokemon[indexOfArray] ? res.send(pokemon[indexOfArray]) : res.send(`Sorry no pokemon found at /pokemon${indexOfArray}`)
 })
 
+app.get('/pokemon-pretty/:indexOfArray', (req, res) => {
+    const { indexOfArray } = req.params;
+    pokemon[indexOfArray] ? res.send(`<h1>${pokemon[indexOfArray].name}</h1> <img src="${pokemon[indexOfArray].img}"/> <h3>${pokemon[indexOfArray].misc.classification}</h3>`) 
+    : 
+    res.send(`Sorry no pokemon found at /pokemon${indexOfArray}`)
+})
 
 
 module.exports = app
