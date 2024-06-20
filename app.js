@@ -1,5 +1,6 @@
 // DEPENDENCIES
 const express = require("express");
+const pokemon = require("./models/pokemon.json");
 
 // CONFIGURATION
 const app = express();
@@ -36,6 +37,17 @@ app.get("/bugs/:numberOfBugs", (req, res) => {
     
 });
 
+app.get("/pokemon", (req, res) => {
+    res.send(pokemon);
+})
+
+app.get("/pokemon/:indexOfArray", (req, res) => {
+    const { indexOfArray } = req.params;
+    if (indexOfArray >= pokemon.length)
+        res.send(`Sorry, no pokemon found at ${indexOfArray}`)
+    res.send(pokemon[indexOfArray]);
+
+})
 
 // EXPORT
 module.exports = app;
