@@ -31,6 +31,30 @@ app.get('/pokemon', (req, res) => {
     res.send(pokemon);
 });
 
+
+app.get('/pokemon/search', (req, res) => {
+    const { name, type } = req.query;
+    let results = [];
+
+    if (name) {
+        results = pokemon.filter(monster => monster.name.toLowerCase() === name.toLowerCase());
+        if (results.length > 0) {
+            res.json(results);
+        } else {
+            res.status(404).send(`Cannot find Pokemon with name "${name}"`);
+        }
+    } else if (type) {
+        results = pokemon.filter(monster => monster.type.map(t => t.toLowerCase()).includes(type.toLowerCase()));
+        if (results.length > 0) {
+            res.json(results);
+        } else {
+            res.status(404).send(`Cannot find Pokemon with type "${type}"`);
+        }
+    } else {
+        res.status(400).send('Please provide a search parameter (name or type).');
+    }
+});
+
 app.get('/pokemon/:indexOfPokemon', (req, res) => {
     const { indexOfPokemon } = req.params;
 
@@ -39,6 +63,6 @@ app.get('/pokemon/:indexOfPokemon', (req, res) => {
     } else {
         res.send(`Sorry, no pokemon found at index: ${indexOfPokemon}`);
     }
-}); 
+});
 
 module.exports = app;
