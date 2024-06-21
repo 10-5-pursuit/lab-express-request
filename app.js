@@ -65,4 +65,49 @@ app.get('/pokemon/:indexOfPokemon', (req, res) => {
     }
 });
 
+
+app.get('/pokemon-pretty', (req, res) => {
+    const listItems = pokemon.map((monster, index) => {
+        return `<li><a href="/pokemon-pretty/${index}">${monster.name}</a></li>`;
+    }).join('');
+    const html = `<ul>${listItems}</ul>`;
+    res.send(html);
+});
+
+app.get('/pokemon-pretty/:indexOfPokemon', (req, res) => {
+    const { indexOfPokemon } = req.params;
+    if (pokemon[indexOfPokemon]) {
+        const monster = pokemon[indexOfPokemon];
+        const type = `<p><b>Type:</b> ${monster.type.map(t => t).join(', ')}</p>`;
+        
+        const miscItems = () => {
+            let result = [];
+            const misc = monster.misc;
+            for (let key in misc) {
+                result.push(`<p><b>${key}:</b> ${misc[key]}</p>`);
+            }
+            return result.join(' ');
+        }
+
+        const miscList = miscItems();
+
+        const statsItems = () => {
+            let result = [];
+            const stats = monster.stats;
+            for (let key in stats) {
+                result.push(`<p style="border: 2px solid grey; width: 100px; padding: 3px"><b style="color: blue">${key}:</b></> <span style="color: red">${stats[key]}</span></p>`);
+            }
+            return result.join('');
+        }
+
+        const statList = statsItems();
+
+        const html = `<h1>${monster.name}</h1><img src="${monster.img}" height=250px width=250px></img>${type}${miscList}${statList}`;
+
+        res.send(html);
+    } else {
+        res.send(`Cannot find Pokemon with index ${indexOfPokemon}`);
+    }
+});
+
 module.exports = app;
