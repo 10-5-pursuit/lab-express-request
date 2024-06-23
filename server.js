@@ -63,7 +63,7 @@ app.get('/pokemon/:indexOfArray', (req, res) => {
   if (index >= 0 && index < pokemon.length) {
     res.json(pokemon[index]);
   } else {
-    res.send(`Sorry, no pokemon found at /pokemon ${index}`);
+    res.send(`Sorry, no pokemon found at ${index}`);
   }
 });
 
