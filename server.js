@@ -3,9 +3,9 @@ require("dotenv").config();
 const PORT = process.env.PORT;
 const pokemon = require('./models/pokemon.json')
 
-// app.get('/', (req, res) => {
-//     res.send("This is my app")
-// })
+app.get('/', (req, res) => {
+    res.send("Welcome 99 Pokemon")
+})
 
 app.get('/:verb/:adjective/:noun', (req, res) => {
     const { verb, adjective, noun } = req.params;
